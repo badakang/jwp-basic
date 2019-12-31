@@ -12,6 +12,7 @@ public class JdbcTemplate {
 	
     public void insert(User user, UserDao userDAO) throws SQLException {
         
+    	
     	Connection con = null;
         PreparedStatement pstmt = null;
         try {
