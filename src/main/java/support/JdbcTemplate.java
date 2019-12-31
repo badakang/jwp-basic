@@ -11,7 +11,8 @@ import next.model.User;
 public class JdbcTemplate {
 	
     public void insert(User user, UserDao userDAO) throws SQLException {
-        Connection con = null;
+        
+    	Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = ConnectionManager.getConnection();
