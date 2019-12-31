@@ -68,7 +68,7 @@ public class UserDao {
 			}
 
 			@Override
-			public User mapRow(ResultSet rs) throws SQLException {
+			public Object mapRow(ResultSet rs) throws SQLException {
 				User user = null;
 				if (rs.next()) {
 				    user = new User(rs.getString("userId"), 
