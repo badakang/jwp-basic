@@ -91,14 +91,10 @@ public class UserDao {
     	RowMapper rm = new RowMapper() {
 			@Override
 			public Object mapRow(ResultSet rs) throws SQLException {
-				User user = null;
-				if (rs.next()) {
-				    user = new User(rs.getString("userId"), 
+				return new User(rs.getString("userId"), 
 				    		rs.getString("password"), 
 				    		rs.getString("name"),
 				            rs.getString("email"));
-				}
-				return user;
 			}
     	};
     	JdbcTemplate template = new JdbcTemplate();

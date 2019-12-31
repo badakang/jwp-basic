@@ -41,7 +41,10 @@ public class JdbcTemplate {
             pss.setParameter(pstmt);
 
             rs = pstmt.executeQuery();
-
+            if (rs.next()) {
+            	return null;
+			}
+            
             return rm.mapRow(rs);
         } finally {
             if (rs != null) {
