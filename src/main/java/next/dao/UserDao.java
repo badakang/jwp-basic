@@ -10,7 +10,6 @@ import java.util.List;
 import core.jdbc.ConnectionManager;
 import next.model.User;
 import support.JdbcTemplate;
-import support.SelectJdbcTemplate;
 
 public class UserDao {
 
@@ -22,6 +21,12 @@ public class UserDao {
 				pstmt.setString(2, user.getPassword());
 				pstmt.setString(3, user.getName());
 				pstmt.setString(4, user.getEmail());
+			}
+
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
 			}			
 		};
 		String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
@@ -37,6 +42,12 @@ public class UserDao {
 				pstmt.setString(2, user.getName());
 				pstmt.setString(3, user.getEmail());
 				pstmt.setString(4, user.getUserId());
+			}
+
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
 			}			
 		};
 		String sql = "UPDATE USERS set password = ?, name = ?, email= ? where userId = ?";
@@ -48,6 +59,12 @@ public class UserDao {
 			@Override
 			public void setParameter(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, user.getUserId());
+			}
+
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
 			}			
 		};
 		String sql = "DELETE FROM USERS  where userId = ?";
@@ -60,10 +77,10 @@ public class UserDao {
     }
 
     public User findByUserId(String userId) throws SQLException {
-		SelectJdbcTemplate template = new SelectJdbcTemplate() {
+		JdbcTemplate template = new JdbcTemplate() {
 
 			@Override
-			public void setParameters(PreparedStatement pstmt) throws SQLException {
+			public void setParameter(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, userId);
 			}
 
