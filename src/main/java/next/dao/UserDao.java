@@ -24,7 +24,7 @@ public class UserDao {
 
 
 			@Override
-			public void setParameter(User user, PreparedStatement pstmt) throws SQLException {
+			public void setParameter(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, user.getUserId());
 				pstmt.setString(2, user.getPassword());
 				pstmt.setString(3, user.getName());
@@ -32,7 +32,7 @@ public class UserDao {
 			}			
 		};
 				
-		template.insert(user);
+		template.insert();
     }
 	
 

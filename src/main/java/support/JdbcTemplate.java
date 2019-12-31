@@ -10,14 +10,14 @@ import next.model.User;
 
 public abstract class JdbcTemplate {
 	
-    public void insert(User user) throws SQLException {
+    public void insert() throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = ConnectionManager.getConnection();
             String sql = createQuery();
             pstmt = con.prepareStatement(sql);
-            setParameter(user, pstmt);
+            setParameter(pstmt);
 
             pstmt.executeUpdate();
         } finally {
@@ -32,5 +32,5 @@ public abstract class JdbcTemplate {
     }
 
     public abstract String createQuery();
-    public abstract void setParameter(User user, PreparedStatement pstmt) throws SQLException ;
+    public abstract void setParameter(PreparedStatement pstmt) throws SQLException ;
 }
