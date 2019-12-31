@@ -11,13 +11,13 @@ import next.model.User;
 
 public abstract class JdbcTemplate {
 	
-    public void executeUpdate(String sql) throws SQLException {
+    public void executeUpdate(String sql, PreparedStatementSetter pss) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = ConnectionManager.getConnection();
             pstmt = con.prepareStatement(sql);
-            setParameter(pstmt);
+            pss.setParameter(pstmt);
 
             pstmt.executeUpdate();
         } finally {
