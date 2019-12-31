@@ -31,18 +31,18 @@ public abstract class JdbcTemplate {
         }
     }
     
-    public Object executeQuery(String sql) throws SQLException {
+    public Object executeQuery(String sql, PreparedStatementSetter pss, RowMapper rm) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
             con = ConnectionManager.getConnection();
             pstmt = con.prepareStatement(sql);
-            setParameter(pstmt);
+            pss.setParameter(pstmt);
 
             rs = pstmt.executeQuery();
 
-            return mapRow(rs);
+            return rm.mapRow(rs);
         } finally {
             if (rs != null) {
                 rs.close();

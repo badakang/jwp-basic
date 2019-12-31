@@ -29,6 +29,7 @@ import core.jdbc.ConnectionManager;
 import next.model.User;
 import support.JdbcTemplate;
 import support.PreparedStatementSetter;
+import support.RowMapper;
 
 public class UserDao {
 
@@ -121,8 +122,26 @@ public class UserDao {
     }
 
     public User findByUserId(String userId) throws SQLException {
+    	PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setParameter(PreparedStatement pstmt) throws SQLException {
+				pstmt.setString(1, userId);
+			}
+    	};
+    	RowMapper rm = new RowMapper() {
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				User user = null;
+				if (rs.next()) {
+				    user = new User(rs.getString("userId"), 
+				    		rs.getString("password"), 
+				    		rs.getString("name"),
+				            rs.getString("email"));
+				}
+				return user;
+			}
+    	};
 		JdbcTemplate template = new JdbcTemplate() {
-
 			@Override
 			public void setParameter(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, userId);
@@ -141,6 +160,6 @@ public class UserDao {
 			}
 		};
 		String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-		return (User)template.executeQuery(sql);
+		return (User)template.executeQuery(sql, pss, rm);
     }
 }
