@@ -8,17 +8,16 @@ import core.jdbc.ConnectionManager;
 import next.dao.UserDao;
 import next.model.User;
 
-public class JdbcTemplate {
+public abstract class JdbcTemplate {
 	
-    public void insert(User user, UserDao userDAO) throws SQLException {
-    	
-    	Connection con = null;
+    public void insert(User user) throws SQLException {
+        Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = ConnectionManager.getConnection();
-            String sql = userDAO.createQuery();
+            String sql = createQuery();
             pstmt = con.prepareStatement(sql);
-            userDAO.setParameter(user, pstmt);
+            setParameter(user, pstmt);
 
             pstmt.executeUpdate();
         } finally {
@@ -31,4 +30,7 @@ public class JdbcTemplate {
             }
         }
     }
+
+    public abstract String createQuery();
+    public abstract void setParameter(User user, PreparedStatement pstmt) throws SQLException ;
 }

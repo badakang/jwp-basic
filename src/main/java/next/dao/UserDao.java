@@ -13,23 +13,28 @@ import support.JdbcTemplate;
 
 public class UserDao {
 
-	public void insert(User user, UserDao userDAO) throws SQLException {
-		
-		JdbcTemplate template = new JdbcTemplate();
-		template.insert(user, userDAO);
+	public void insert(User user) throws SQLException {
+		JdbcTemplate template = new JdbcTemplate() {
+
+			@Override
+			public String createQuery() {
+				String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
+				return sql;
+			}
+
+
+			@Override
+			public void setParameter(User user, PreparedStatement pstmt) throws SQLException {
+				pstmt.setString(1, user.getUserId());
+				pstmt.setString(2, user.getPassword());
+				pstmt.setString(3, user.getName());
+				pstmt.setString(4, user.getEmail());
+			}			
+		};
+				
+		template.insert(user);
     }
 	
-	public void setParameter(User user, PreparedStatement pstmt) throws SQLException {
-		pstmt.setString(1, user.getUserId());
-		pstmt.setString(2, user.getPassword());
-		pstmt.setString(3, user.getName());
-		pstmt.setString(4, user.getEmail());
-	}
-
-	public String createQuery() {
-		String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-		return sql;
-	}
 
     public void update(User user) throws SQLException {
         // TODO 구현 필요함.
