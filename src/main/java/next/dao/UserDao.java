@@ -15,14 +15,6 @@ public class UserDao {
 
 	public void insert(User user) throws SQLException {
 		JdbcTemplate template = new JdbcTemplate() {
-
-			@Override
-			public String createQuery() {
-				String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-				return sql;
-			}
-
-
 			@Override
 			public void setParameter(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, user.getUserId());
@@ -31,8 +23,8 @@ public class UserDao {
 				pstmt.setString(4, user.getEmail());
 			}			
 		};
-				
-		template.insert();
+		String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
+		template.insert(sql);
     }
 	
 
