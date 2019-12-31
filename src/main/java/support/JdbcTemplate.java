@@ -9,7 +9,7 @@ import core.jdbc.ConnectionManager;
 import next.dao.UserDao;
 import next.model.User;
 
-public abstract class JdbcTemplate {
+public class JdbcTemplate {
 	
     public void executeUpdate(String sql, PreparedStatementSetter pss) throws SQLException {
         Connection con = null;
@@ -55,7 +55,4 @@ public abstract class JdbcTemplate {
             }
         }
     }
-    public abstract void setParameter(PreparedStatement pstmt) throws SQLException ;
-    public abstract Object mapRow(ResultSet rs) throws SQLException ;
-
 }
