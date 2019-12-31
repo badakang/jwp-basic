@@ -9,31 +9,26 @@ import java.util.List;
 
 import core.jdbc.ConnectionManager;
 import next.model.User;
+import support.JdbcTemplate;
 
 public class UserDao {
-    public void insert(User user) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = ConnectionManager.getConnection();
-            String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-            pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, user.getUserId());
-            pstmt.setString(2, user.getPassword());
-            pstmt.setString(3, user.getName());
-            pstmt.setString(4, user.getEmail());
 
-            pstmt.executeUpdate();
-        } finally {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-
-            if (con != null) {
-                con.close();
-            }
-        }
+	public void insert(User user) throws SQLException {
+		JdbcTemplate template = new JdbcTemplate();
+		template.insert(user, this);
     }
+	
+	public void setParameter(User user, PreparedStatement pstmt) throws SQLException {
+		pstmt.setString(1, user.getUserId());
+		pstmt.setString(2, user.getPassword());
+		pstmt.setString(3, user.getName());
+		pstmt.setString(4, user.getEmail());
+	}
+
+	public String createQuery() {
+		String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
+		return sql;
+	}
 
     public void update(User user) throws SQLException {
         // TODO 구현 필요함.
