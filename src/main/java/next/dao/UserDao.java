@@ -14,6 +14,7 @@ import support.JdbcTemplate;
 public class UserDao {
 
 	public void insert(User user, UserDao userDAO) throws SQLException {
+		
 		JdbcTemplate template = new JdbcTemplate();
 		template.insert(user, userDAO);
     }
