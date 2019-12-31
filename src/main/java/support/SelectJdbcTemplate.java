@@ -10,7 +10,7 @@ import next.model.User;
 
 public abstract class SelectJdbcTemplate {
 
-    public User executeQuery(String sql) throws SQLException {
+    public Object executeQuery(String sql) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -36,6 +36,6 @@ public abstract class SelectJdbcTemplate {
     }
     
     public abstract void setParameters(PreparedStatement pstmt) throws SQLException;
-    public abstract User mapRow(ResultSet rs) throws SQLException ;
+    public abstract Object mapRow(ResultSet rs) throws SQLException ;
 
 }

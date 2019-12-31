@@ -80,6 +80,6 @@ public class UserDao {
 			}
 		};
 		String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-		return template.executeQuery(sql);
+		return (User)template.executeQuery(sql);
     }
 }
