@@ -11,14 +11,15 @@ import next.model.User;
 
 public class JdbcTemplate {
 	
-    public void executeUpdate(String sql, PreparedStatementSetter pss) throws SQLException {
+    public void executeUpdate(String sql, Object... parameters) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = ConnectionManager.getConnection();
             pstmt = con.prepareStatement(sql);
-            pss.setParameter(pstmt);
-
+            for (int i = 0; i < parameters.length; i++) {
+            	pstmt.setObject(i+1, parameters[i]);
+			}
             pstmt.executeUpdate();
         } finally {
             if (pstmt != null) {
@@ -31,14 +32,16 @@ public class JdbcTemplate {
         }
     }
     
-    public <T> T executeQuery(String sql, PreparedStatementSetter pss, RowMapper<T> rm) throws SQLException {
+    public <T> T executeQuery(String sql, RowMapper<T> rm, Object... parameters) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
             con = ConnectionManager.getConnection();
             pstmt = con.prepareStatement(sql);
-            pss.setParameter(pstmt);
+            for (int i = 0; i < parameters.length; i++) {
+				pstmt.setObject(i+1, parameters[i]);
+			}
 
             rs = pstmt.executeQuery();
             if (rs.next()) {
