@@ -52,11 +52,6 @@ public class UserDao {
 		template.executeUpdate(sql, user.getUserId());
     }
 
-    public List<User> findAll() throws SQLException {
-        // TODO 구현 필요함.
-        return new ArrayList<User>();
-    }
-
     public User findByUserId(String userId) throws SQLException {
     	RowMapper<User> rm = new RowMapper<User>() {
 			@Override
@@ -71,4 +66,20 @@ public class UserDao {
 		String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
 		return template.executeQuery(sql, rm, userId);
     }
+
+    public List<User> findAll() throws SQLException {
+    	RowMapper<User> rm = new RowMapper<User>() {
+			@Override
+			public User mapRow(ResultSet rs) throws SQLException {
+				return new User(rs.getString("userId"), 
+				    		rs.getString("password"), 
+				    		rs.getString("name"),
+				            rs.getString("email"));
+			}
+    	};
+    	JdbcTemplate template = new JdbcTemplate();
+		String sql = "SELECT userId, password, name, email FROM USERS";
+		return template.list(sql, rm);
+    }
+
 }
